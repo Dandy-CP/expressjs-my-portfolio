@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import validateEnv from "@/utils/validateEnv";
-import MyProjectsRouter from "@/routers/my-projects.routers";
+import myProjectsRouter from "@/routers/myprojects.routers";
 
 dotenv.config();
 validateEnv();
@@ -29,7 +29,7 @@ app.get("/", (res: Response) => {
   });
 });
 
-MyProjectsRouter(app);
+myProjectsRouter(app);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
