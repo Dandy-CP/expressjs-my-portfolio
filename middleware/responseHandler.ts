@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 interface IPropsSuccessHandler<T> {
-  data: T;
+  data?: T;
   meta?: any;
   message: string;
   res: Response;
