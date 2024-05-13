@@ -6,7 +6,7 @@ import {
   createNewProjects,
   updateProjects,
   deleteProjects,
-} from "@/controllers/my-projects.controllers";
+} from "@/controllers/myprojects.controllers";
 
 const myProjectsRouter = (app: Application) => {
   const router = express.Router();
