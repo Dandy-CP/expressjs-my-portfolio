@@ -11,21 +11,24 @@ import {
 const myProjectsRouter = (app: Application) => {
   const router = express.Router();
 
+  app.use("/projects", router);
+
   router.get("/list", getListProjects);
+
   router.post("/create", myProjectValidator(), createNewProjects);
+
   router.put(
     "/update",
     query("id", "Parameter id is required").notEmpty(),
     myProjectValidator(),
     updateProjects
   );
+
   router.delete(
     "/delete",
     query("id", "Parameter id is required").notEmpty(),
     deleteProjects
   );
-
-  app.use("/projects", router);
 };
 
 export default myProjectsRouter;
