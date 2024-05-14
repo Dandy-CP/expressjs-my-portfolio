@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import validateEnv from "@/utils/validateEnv";
 import myProjectsRouter from "@/routers/myprojects.routers";
 import blogRouter from "./routers/blog.routers";
+import commentBlogRouter from "./routers/commentBlog.routers";
 
 dotenv.config();
 validateEnv();
@@ -32,6 +33,7 @@ app.get("/", (res: Response) => {
 
 myProjectsRouter(app);
 blogRouter(app);
+commentBlogRouter(app);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
