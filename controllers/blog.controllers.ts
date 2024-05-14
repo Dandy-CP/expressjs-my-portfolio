@@ -142,3 +142,24 @@ export const deleteBlog = async (req: Request, res: Response) => {
     return errorHandler({ error, res });
   }
 };
+
+export const incrementViewBlog = async (req: Request, res: Response) => {
+  const { id } = req.query;
+
+  try {
+    await prisma.blog
+      .update({
+        where: { id: id as string },
+        data: { blogViews: { increment: 1 } },
+      })
+      .then((data) => {
+        return successHandler({
+          res,
+          data,
+          message: `Success Increment View Blog with ID ${id}`,
+        });
+      });
+  } catch (error) {
+    return errorHandler({ error, res });
+  }
+};
