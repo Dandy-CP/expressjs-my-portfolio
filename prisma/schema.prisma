@@ -9,37 +9,59 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      =  env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model admin_user {
+  id            String            @id @unique @default(nanoid())
+  name          String
+  email         String            @unique
+  password      String
+  avatar        String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  blogPost      blog[]
 }
 
 model my_projects {
-  id            Int               @id @default(autoincrement())
-  title         String
+  id            String            @id @unique @default(nanoid())
+  title         String            @unique
   description   String
   tech_stack    String[]
   github        String
   demo          String
   thumbnail     String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
 }
 
 model blog {
-  id            String             @id @db.Uuid @default(uuid())
-  title         String
-  author        String
+  id            String            @id @unique @default(nanoid())
+  category      String
+  title         String            @unique
   content       String
   thumbnail     String
   tag           String[]
-  blogViews     Int                @default(0)
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
-  comment       blogComment[]
+  blogViews     Int               @default(0)
+  likes         Int               @default(0)
+  dislike       Int               @default(0)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  comment       blog_comment[]
+  authorId      String
+  author        admin_user        @relation(fields: [authorId], references: [id])
 }
 
-model blogComment {
-  id            String             @id @db.Uuid @default(uuid())
+model blog_comment {
+  id            String            @id @unique @default(nanoid())
   name          String
   comment       String
-  blogId        String             @db.Uuid
-  blog          blog               @relation(fields: [blogId], references: [id])
+  likes         Int               @default(0)
+  dislike       Int               @default(0)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  blogId        String             
+  blog          blog              @relation(fields: [blogId], references: [id])
 }
