@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import prisma from "@/prisma/prisma";
+import uploadHandler from "@/middleware/uploadHandler";
 import { successHandler, errorHandler } from "@/middleware/responseHandler";
 import { myProjectType } from "@/types/myprojects.types";
 
@@ -24,13 +25,26 @@ export const getListProjects = async (req: Request, res: Response) => {
 };
 
 export const createNewProjects = async (req: Request, res: Response) => {
-  const bodyValue = req.body as myProjectType;
+  let bodyValue = req.body as myProjectType;
+  const file = req.file;
 
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     res.status(422).json({ errors: errors.array() });
     return;
+  }
+
+  const { dataPath, errorMsg } = await uploadHandler({
+    bucketName: "myprojects",
+    bufferFiles: file,
+  });
+
+  if (errorMsg) {
+    return errorHandler({ res, customMessage: errorMsg, customStatus: 500 });
+  } else {
+    bodyValue.tech_stack = JSON.parse(bodyValue.tech_stack as any);
+    bodyValue.thumbnail = dataPath;
   }
 
   try {
@@ -53,6 +67,7 @@ export const createNewProjects = async (req: Request, res: Response) => {
 export const updateProjects = async (req: Request, res: Response) => {
   const bodyValue = req.body as myProjectType;
   const { id } = req.query;
+  const file = req.file;
 
   const errors = validationResult(req);
 
@@ -61,9 +76,25 @@ export const updateProjects = async (req: Request, res: Response) => {
     return;
   }
 
+  if (file) {
+    const { dataPath, errorMsg } = await uploadHandler({
+      bucketName: "myprojects",
+      bufferFiles: file,
+    });
+
+    if (errorMsg) {
+      return errorHandler({ res, customMessage: errorMsg, customStatus: 500 });
+    } else {
+      bodyValue.tech_stack = JSON.parse(bodyValue.tech_stack as any);
+      bodyValue.thumbnail = dataPath;
+    }
+  } else {
+    bodyValue.tech_stack = JSON.parse(bodyValue.tech_stack as any);
+  }
+
   try {
     const idValue = await prisma.my_projects.findUnique({
-      where: { id: Number(id) },
+      where: { id: id as string },
     });
 
     if (!idValue) {
@@ -77,7 +108,7 @@ export const updateProjects = async (req: Request, res: Response) => {
     await prisma.my_projects
       .update({
         where: {
-          id: Number(id),
+          id: id as string,
         },
         data: bodyValue,
       })
@@ -105,7 +136,7 @@ export const deleteProjects = async (req: Request, res: Response) => {
 
   try {
     const idValue = await prisma.my_projects.findUnique({
-      where: { id: Number(id) },
+      where: { id: id as string },
     });
 
     if (!idValue) {
@@ -119,7 +150,7 @@ export const deleteProjects = async (req: Request, res: Response) => {
     await prisma.my_projects
       .delete({
         where: {
-          id: Number(id),
+          id: id as string,
         },
       })
       .then((data) => {
