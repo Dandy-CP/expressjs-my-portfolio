@@ -3,10 +3,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import dotenv from "dotenv";
+import prisma from "@/prisma/prisma";
 import validateEnv from "@/utils/validateEnv";
-import myProjectsRouter from "@/routers/myprojects.routers";
-import blogRouter from "./routers/blog.routers";
-import commentBlogRouter from "./routers/commentBlog.routers";
+import { myProjectsRouter, blogRouter, commentBlogRouter } from "@/routers";
 
 dotenv.config();
 validateEnv();
@@ -23,12 +22,24 @@ app.use(
 );
 app.use(helmet());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (res: Response) => {
-  res.status(200).send({
-    statusCode: 200,
-    message: "Welcome To My Portfolio Rest API",
-  });
+app.get("/", async (req: Request, res: Response) => {
+  try {
+    const checkDatabase = await prisma.$queryRaw`SELECT 1`;
+    const statusDatabase = checkDatabase ? "Running" : "Error";
+
+    res.status(200).json({
+      message: "Welcome To My Portfolio Rest API",
+      database: statusDatabase,
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: "Welcome To My Portfolio Rest API",
+      database: "Error",
+      error: error.message,
+    });
+  }
 });
 
 myProjectsRouter(app);
