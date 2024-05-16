@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import { query } from "express-validator";
+import multerHandler from "@/middleware/multer";
 import myProjectValidator from "@/middleware/validator/myproject.validator";
 import {
   getListProjects,
@@ -15,11 +16,16 @@ const myProjectsRouter = (app: Application) => {
 
   router.get("/list", getListProjects);
 
-  router.post("/create", myProjectValidator(), createNewProjects);
+  router.post(
+    "/create",
+    multerHandler({ typeUpload: "single", fieldName: "projectImage" }),
+    myProjectValidator(),
+    createNewProjects
+  );
 
   router.put(
     "/update",
-    query("id", "Parameter id is required").notEmpty(),
+    multerHandler({ typeUpload: "single", fieldName: "projectImage" }),
     myProjectValidator(),
     updateProjects
   );
