@@ -15,14 +15,12 @@ const commentBlogRouter = async (app: Application) => {
   router.get(
     "/get",
     query("id", "Parameter id is required").notEmpty(),
-    query("id", "id must be UUID").isUUID(),
     getBlogComment
   );
 
   router.post(
     "/create",
     query("id", "Parameter id is required").notEmpty(),
-    query("id", "id must be UUID").isUUID(),
     commentBlogValidator(),
     createBlogComment
   );
@@ -30,7 +28,6 @@ const commentBlogRouter = async (app: Application) => {
   router.delete(
     "/delete",
     query("id", "Parameter id is required").notEmpty(),
-    query("id", "id must be UUID").isUUID(),
     deleteCommentBlog
   );
 };

@@ -28,14 +28,12 @@ const blogRouter = (app: Application) => {
   router.put(
     "/incrementViewBlog",
     query("id", "Parameter id is required").notEmpty(),
-    query("id", "id must be UUID").isUUID(),
     incrementViewBlog
   );
 
   router.put(
     "/update",
     query("id", "Parameter id is required").notEmpty(),
-    query("id", "id must be UUID").isUUID(),
     blogValidator(),
     updateBlog
   );
