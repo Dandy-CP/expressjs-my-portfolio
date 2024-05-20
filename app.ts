@@ -5,7 +5,12 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import prisma from "@/prisma/prisma";
 import validateEnv from "@/utils/validateEnv";
-import { myProjectsRouter, blogRouter, commentBlogRouter } from "@/routers";
+import {
+  myProjectsRouter,
+  blogRouter,
+  commentBlogRouter,
+  authRouter,
+} from "@/routers";
 
 dotenv.config();
 validateEnv();
@@ -42,6 +47,7 @@ app.get("/", async (req: Request, res: Response) => {
   }
 });
 
+authRouter(app);
 myProjectsRouter(app);
 blogRouter(app);
 commentBlogRouter(app);
