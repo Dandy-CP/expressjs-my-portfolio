@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 interface IPropsSuccessHandler<T> {
   data?: T;
   meta?: any;
-  message: string;
+  message?: string;
   res: Response;
   req?: Request;
   next?: NextFunction;
@@ -15,10 +15,8 @@ export const successHandler = <T>({
   data,
   meta,
 }: IPropsSuccessHandler<T>) => {
-  return res.status(res.statusCode).json({
-    success: true,
-    status: res.statusCode,
-    message: message,
+  return res.status(200).json({
+    message,
     data,
     meta,
   });
@@ -44,7 +42,6 @@ export const errorHandler = ({
   const status = error?.code || customStatus || 500;
 
   return res.status(status).json({
-    success: false,
     status: status,
     message: message,
     stack: process.env.NODE_ENV === "development" ? error?.stack : {},
