@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
 import prisma from "@/prisma/prisma";
 import uploadHandler from "@/middleware/uploadHandler";
 import { successHandler, errorHandler } from "@/middleware/responseHandler";
@@ -17,7 +16,6 @@ export const getListProjects = async (req: Request, res: Response) => {
       res,
       data,
       meta,
-      message: "Success Get List Projects",
     });
   } catch (error) {
     return errorHandler({ error, res });
@@ -27,13 +25,6 @@ export const getListProjects = async (req: Request, res: Response) => {
 export const createNewProjects = async (req: Request, res: Response) => {
   let bodyValue = req.body as myProjectType;
   const file = req.file;
-
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(422).json({ errors: errors.array() });
-    return;
-  }
 
   const { dataPath, errorMsg } = await uploadHandler({
     bucketName: "myprojects",
@@ -68,13 +59,6 @@ export const updateProjects = async (req: Request, res: Response) => {
   const bodyValue = req.body as myProjectType;
   const { id } = req.query;
   const file = req.file;
-
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(422).json({ errors: errors.array() });
-    return;
-  }
 
   if (file) {
     const { dataPath, errorMsg } = await uploadHandler({
@@ -126,13 +110,6 @@ export const updateProjects = async (req: Request, res: Response) => {
 
 export const deleteProjects = async (req: Request, res: Response) => {
   const { id } = req.query;
-
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(422).json({ errors: errors.array() });
-    return;
-  }
 
   try {
     const idValue = await prisma.my_projects.findUnique({
