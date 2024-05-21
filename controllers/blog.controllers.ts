@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "@/prisma/prisma";
 import uploadHandler from "@/middleware/uploadHandler";
+import deleteFileHandler from "@/middleware/deleteFileHandler";
 import { successHandler, errorHandler } from "@/middleware/responseHandler";
 import { blogBodyType } from "@/types/blog.types";
 
@@ -193,6 +194,19 @@ export const deleteBlog = async (req: Request, res: Response) => {
         res,
         customMessage: `blog with ID ${id} not found`,
         customStatus: 404,
+      });
+    }
+
+    const { errorMsg } = await deleteFileHandler({
+      bucketName: "coverimage",
+      fileName: [blogInDB.thumbnail],
+    });
+
+    if (errorMsg) {
+      return errorHandler({
+        res,
+        customMessage: errorMsg,
+        customStatus: 500,
       });
     }
 

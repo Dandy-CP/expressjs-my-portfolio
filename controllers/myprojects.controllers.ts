@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "@/prisma/prisma";
 import uploadHandler from "@/middleware/uploadHandler";
+import deleteFileHandler from "@/middleware/deleteFileHandler";
 import { successHandler, errorHandler } from "@/middleware/responseHandler";
 import { myProjectType } from "@/types/myprojects.types";
 
@@ -77,11 +78,11 @@ export const updateProjects = async (req: Request, res: Response) => {
   }
 
   try {
-    const idValue = await prisma.my_projects.findUnique({
+    const projectInDB = await prisma.my_projects.findUnique({
       where: { id: id as string },
     });
 
-    if (!idValue) {
+    if (!projectInDB) {
       return errorHandler({
         res,
         customMessage: `project with ID ${id} not found`,
@@ -112,15 +113,28 @@ export const deleteProjects = async (req: Request, res: Response) => {
   const { id } = req.query;
 
   try {
-    const idValue = await prisma.my_projects.findUnique({
+    const projectInDB = await prisma.my_projects.findUnique({
       where: { id: id as string },
     });
 
-    if (!idValue) {
+    if (!projectInDB) {
       return errorHandler({
         res,
         customMessage: `project with ID ${id} not found`,
         customStatus: 404,
+      });
+    }
+
+    const { errorMsg } = await deleteFileHandler({
+      bucketName: "myprojects",
+      fileName: [projectInDB.thumbnail],
+    });
+
+    if (errorMsg) {
+      return errorHandler({
+        res,
+        customMessage: errorMsg,
+        customStatus: 500,
       });
     }
 
@@ -133,7 +147,6 @@ export const deleteProjects = async (req: Request, res: Response) => {
       .then((data) => {
         return successHandler({
           res,
-          data,
           message: `Success Delete Project with id ${id}`,
         });
       });
