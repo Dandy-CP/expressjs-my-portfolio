@@ -65,3 +65,32 @@ model blog_comment {
   blogId        String             
   blog          blog              @relation(fields: [blogId], references: [id])
 }
+
+model certificate {
+  id            String            @id @unique @default(nanoid())
+  title         String
+  file          String
+  thumbnail     String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model identity {
+  id            String            @id @unique @default(nanoid())
+  summary       String
+  cv_file       String
+  image_profile String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  tech_stack    tech_stack[]
+}
+
+model tech_stack {
+  id            String            @id @unique @default(nanoid())
+  nameTech      String
+  imageTech     String
+  identityID    String
+  identity      identity          @relation(fields: [identityID], references: [id])
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
