@@ -276,7 +276,9 @@ export const likeBlog = async (req: Request, res: Response) => {
           message: `Success Increment Like with ID ${id}`,
         });
       });
-  } catch (error) {}
+  } catch (error) {
+    return errorHandler({ error, res });
+  }
 };
 
 export const dislikeBlog = async (req: Request, res: Response) => {
@@ -306,5 +308,7 @@ export const dislikeBlog = async (req: Request, res: Response) => {
           message: `Success Increment Dislike with ID ${id}`,
         });
       });
-  } catch (error) {}
+  } catch (error) {
+    return errorHandler({ error, res });
+  }
 };

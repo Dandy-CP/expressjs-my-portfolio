@@ -115,7 +115,9 @@ export const likeBlogComment = async (req: Request, res: Response) => {
           message: `Success Increment Comment Like with ID ${id}`,
         });
       });
-  } catch (error) {}
+  } catch (error) {
+    return errorHandler({ error, res });
+  }
 };
 
 export const dislikeBlogComment = async (req: Request, res: Response) => {
@@ -145,5 +147,7 @@ export const dislikeBlogComment = async (req: Request, res: Response) => {
           message: `Success Increment Comment Dislike with ID ${id}`,
         });
       });
-  } catch (error) {}
+  } catch (error) {
+    return errorHandler({ error, res });
+  }
 };
