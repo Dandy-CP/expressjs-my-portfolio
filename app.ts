@@ -6,10 +6,11 @@ import dotenv from "dotenv";
 import prisma from "@/prisma/prisma";
 import validateEnv from "@/utils/validateEnv";
 import {
+  authRouter,
   myProjectsRouter,
+  certificateRoute,
   blogRouter,
   commentBlogRouter,
-  authRouter,
 } from "@/routers";
 
 dotenv.config();
@@ -49,6 +50,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 authRouter(app);
 myProjectsRouter(app);
+certificateRoute(app);
 blogRouter(app);
 commentBlogRouter(app);
 
