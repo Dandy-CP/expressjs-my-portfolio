@@ -6,7 +6,7 @@ interface ITypeArrayField {
 }
 
 interface ITypeMulter {
-  fieldName: string;
+  fieldName?: string;
   typeUpload: "single" | "fields";
   arrayField?: ITypeArrayField[];
 }
