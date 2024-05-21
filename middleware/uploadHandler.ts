@@ -18,8 +18,10 @@ const uploadHandler = async ({ bucketName, bufferFiles }: ITypeUpload) => {
       upsert: true,
     })
     .then((data) => {
-      dataPath = `${process.env.SUPABASE_URL}/storage/v1/object/public/${bucketName}/${data.data?.path}`;
+      const mainURL = process.env.SUPABASE_URL;
+      const folderPath = `/storage/v1/object/public/${bucketName}/`;
 
+      dataPath = `${mainURL}${folderPath}${encodeURI(data.data?.path)}`;
       errorMsg = data.error?.message;
     });
 
