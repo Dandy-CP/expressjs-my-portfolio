@@ -9,6 +9,7 @@ import {
   authRouter,
   myProjectsRouter,
   certificateRoute,
+  identityRouter,
   blogRouter,
   commentBlogRouter,
 } from "@/routers";
@@ -51,6 +52,7 @@ app.get("/", async (req: Request, res: Response) => {
 authRouter(app);
 myProjectsRouter(app);
 certificateRoute(app);
+identityRouter(app);
 blogRouter(app);
 commentBlogRouter(app);
 
