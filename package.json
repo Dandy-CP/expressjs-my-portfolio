@@ -4,10 +4,10 @@
   "description": "My Portfolio Rest API Express.JS",
   "main": "app.ts",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "start": "nodemon",
+    "build": "echo '✅ Building project...' && tsc && tsc-alias",
     "preview": "npm run build && cross-env NODE_ENV=development node dist/app.js",
     "production": "npm run build && cross-env NODE_ENV=production node dist/app.js",
-    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dandy-CP",
