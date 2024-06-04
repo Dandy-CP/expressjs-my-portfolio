@@ -20,6 +20,8 @@ model admin_user {
   email         String            @unique
   password      String
   avatar        String?
+  totp_secret   String?
+  is_2fa        Boolean           @default(false)
   createdAt     DateTime          @default(now())
   updatedAt     DateTime          @updatedAt
   blogPost      blog[]
