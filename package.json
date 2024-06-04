@@ -2,9 +2,9 @@
   "name": "expressjs-my-portfolio",
   "version": "1.0.0",
   "description": "My Portfolio Rest API Express.JS",
-  "main": "app.ts",
+  "main": "index.ts",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "node dist/index.js",
     "dev": "nodemon",
     "build": "echo '🚀 Building project' && prisma generate && tsc && tsc-alias",
     "test": "echo \"Error: no test specified\" && exit 1"
