@@ -4,10 +4,9 @@
   "description": "My Portfolio Rest API Express.JS",
   "main": "app.ts",
   "scripts": {
-    "start": "nodemon",
-    "build": "echo '✅ Building project...' && tsc && tsc-alias",
-    "preview": "npm run build && node dist/app.js",
-    "production": "npm run build && prisma generate && node dist/app.js",
+    "start": "node dist/app.js",
+    "dev": "nodemon",
+    "build": "echo '🚀 Building project' && prisma generate && tsc && tsc-alias",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dandy-CP",
