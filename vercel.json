@@ -1,6 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "npm run production",
+  "buildCommand": "npm run build",
+  "devCommand": "node dist/app.js",
   "outputDirectory": "dist",
   "rewrites": [
     {
