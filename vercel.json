@@ -2,10 +2,11 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "routes": [
+  "devCommand": "node dist/app.js",
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "dist/app.js"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
