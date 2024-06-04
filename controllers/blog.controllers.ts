@@ -87,7 +87,7 @@ export const getBlogByName = async (req: Request, res: Response) => {
 
 export const createBlog = async (req: Request, res: Response) => {
   let bodyValue = req.body as blogBodyType;
-  const logedUser = req.user;
+  const logedUser = req.session.user;
   const file = req.file;
 
   const { dataPath, errorMsg } = await uploadHandler({
@@ -127,7 +127,7 @@ export const createBlog = async (req: Request, res: Response) => {
 export const updateBlog = async (req: Request, res: Response) => {
   let bodyValue = req.body as blogBodyType;
   const { id } = req.query;
-  const logedUser = req.user;
+  const logedUser = req.session.user;
   const file = req.file;
 
   if (file) {
