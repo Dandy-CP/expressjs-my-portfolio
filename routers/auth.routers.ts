@@ -7,6 +7,7 @@ import {
   register,
   changePassword,
   refreshToken,
+  logout,
 } from "@/controllers/auth.controllers";
 
 const authRouter = (app: Application) => {
@@ -35,6 +36,8 @@ const authRouter = (app: Application) => {
     errorValidationMapper,
     refreshToken
   );
+
+  router.post("/logout", authGuard, logout);
 
   app.use("/auth", router);
 };
