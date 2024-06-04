@@ -98,3 +98,5 @@ app
   .on("error", (error) => {
     console.error(`[server]: Opps Something Wrong ${error.message}`);
   });
+
+module.exports = app;
