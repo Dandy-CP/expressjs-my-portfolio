@@ -31,6 +31,13 @@ export interface refreshTokenBodyType {
 export interface decodeTypeJWT {
   id: string;
   name: string;
-  iat: number;
-  exp: number;
+  accessToken: string;
+  refreshToken: string;
 }
+
+export type User = {
+  id: string;
+  name: string;
+  accessToken: string;
+  refreshToken: string;
+};
