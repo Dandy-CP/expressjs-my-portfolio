@@ -46,6 +46,14 @@ app.use(
     },
   })
 );
+app.use((req, res, next) => {
+  console.log("\n");
+  console.log(`[server]: Request Route ${req.path}`);
+  console.log(`[server]: Request Methode: ${req.method}`);
+  console.log(`[server]: Time: ${new Date()}`);
+
+  next();
+});
 
 app.get("/", async (req: Request, res: Response) => {
   try {
@@ -87,13 +95,14 @@ redis.on("error", (error) => {
 });
 
 redis.on("connect", () => {
-  console.log("[Redis]: Connected to redis successfully");
+  console.log("[Redis]: Connected to redis successfully ✅");
 });
 
 app
   .listen(PORT, async () => {
     console.info(`[server]: Server started on PORT ${PORT} 🚀`);
     console.info(`[server]: Running on ${Environment} 👨‍💻👩‍💻`);
+    console.log("\n");
   })
   .on("error", (error) => {
     console.error(`[server]: Opps Something Wrong ${error.message}`);
